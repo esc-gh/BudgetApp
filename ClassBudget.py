@@ -1,6 +1,6 @@
 from os import name
 
-
+# Function to prevent entry of non-integer or negative values. Avoid crashing the script
 def non_neg(prompt):
     while True:
         try:
@@ -15,6 +15,7 @@ def non_neg(prompt):
             break
     return user_input
 
+# Main class for the app
 class Budget:
     def __init__(self, balance, name):
         self.balance = balance
@@ -31,11 +32,13 @@ class Budget:
         self.balance=self.balance-amount
         return amount
 
+    # Transfer function that works flexibly between any budget objects
     def transfer(self, destination):
-        transfer = non_neg(f"Current {self.name} budget is £{self.balance}.\nEnter amount for transfer to {destination.name} budget (£): ")
+        transfer = non_neg(f"Current {self.name} budget is £{self.balance} and {destination.name} budget is £{destination.balance}.\nEnter amount for transfer to {destination.name} budget (£): ")
         destination.deposit(self.withdraw(transfer))
         print(f"Transferred £{transfer}. New {destination.name} budget = £{destination.balance}")
     
+    # Main method. The parameters allow flexible use of transfer method
     def function(self, c_budget, e_budget, f_budget):
         run_2 = True
         while run_2:
@@ -56,7 +59,6 @@ class Budget:
             if control == 3:
                 wdraw = non_neg(f"Current {self.name} budget is £{self.balance}.\nWithdrawal amount (£): ")
                 self.withdraw(wdraw)
-            print(f"{self.name} Budget = £{self.balance}")
             if control == 4:
                 while True:
                     if self.name == "Clothing":
@@ -65,7 +67,7 @@ class Budget:
                         trans = non_neg("Transfer to which budget? - 1) Clothing or 3) Food: ")
                     if self.name == "Food":
                         trans = non_neg("Transfer to which budget? - 1) Clothing or 2) Entertainment: ")
-                    if trans == 1 and self.name != "Clothing":
+                    if trans == 1 and self.name != "Clothing": # Conditional statement to prevent erroneous transfer from one budget back to itself
                         destination = c_budget
                         break
                     elif trans == 2 and self.name != "Entertainment":
@@ -80,8 +82,9 @@ class Budget:
             if control == 5:
                 run_2 = False
                 run_3 = False
-            while run_3:
-                cancel = str(input(f"Press C to continue editing {self.name} budget, or R to return to budget selection: ").upper())
+            while run_3: # Runs at the end of any interaction other than 5/exit
+                print(f"{self.name} Budget = £{self.balance}")
+                cancel = str(input(f"Press C to continue editing {self.name}, or R to return to budget selection: ").upper())
                 if cancel == "C" or cancel == "R":
                     run_3 = False
                 if cancel == "R":
