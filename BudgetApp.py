@@ -1,6 +1,8 @@
-from ClassBudget import Budget,non_neg
+from ClassBudget import Budget, non_neg
+# Check for new user or existing data
 import BudgetSetup
 
+# Load data from pevious session or which has just been added via BudgetSetup
 with open("balance.txt","r") as file:
     var = file.readlines()
 
@@ -8,10 +10,7 @@ c_budget = Budget(int(var[0]), "Clothing")
 e_budget = Budget(int(var[1]), "Entertainment")
 f_budget = Budget(int(var[2]), "Food")
 
-# print(c_budget.balance)
-# print(e_budget.balance)
-# print(f_budget.balance)
-
+# Main loop
 run=True
 while run:
     control = str(input("~~ To see a Budget Summary, press S. To Exit press X.\nOr select a Budget - 1) Clothing, 2) Enterntainment, 3) Food: ").upper())
@@ -23,7 +22,7 @@ while run:
         f_budget.function(c_budget, e_budget, f_budget)
     elif control == "X":
         run = False
-    elif control == "S":
+    elif control == "S": # Budget breakdown with category totals and percentages
         total_budget=(c_budget.balance,e_budget.balance,f_budget.balance)
         per_c = c_budget.balance/sum(total_budget)
         per_e = e_budget.balance/sum(total_budget)
@@ -33,6 +32,7 @@ while run:
     else:
         print("Invalid input, please try again.")
 
+# Closing section with budget summary and confirmation of whether to save to balance.txt file before exiting
 total_budget=(c_budget.balance,e_budget.balance,f_budget.balance)
 print(f"Budget breakdown: Clothing = £{c_budget.balance}, Entertainment = £{e_budget.balance}, Food = £{f_budget.balance}")
 print(f"Your total budget remaining = £{sum(total_budget)}")
